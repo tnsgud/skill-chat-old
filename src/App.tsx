@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {FormEvent, useState} from "react";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [userEmail, setUserEmail] = useState('')
+    const [userPassword, setUserPassword] = useState('')
+
+    const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        console.log(userEmail + '/' + userPassword)
+    };
+
+    const onChange = (e: FormEvent<HTMLInputElement>) => {
+        const {currentTarget: {name, value}} = e;
+
+        if (name === 'email') {
+            setUserEmail(value)
+        } else if (name === 'password') {
+            setUserPassword(value)
+        }
+    }
+
+    return (
+        <>
+            <form onSubmit={onSubmit}>
+                이메일 <input name="email" type="email" placeholder="Email" onChange={onChange}/>
+                비밀번호 <input name="password" type="password" placeholder="Password" onChange={onChange}/>
+                로그인 <input type="submit"/>
+            </form>
+            <button>
+                Continue with Google
+            </button>
+
+            <button>
+                Continue with Github
+            </button>
+        </>
+    );
 }
 
 export default App;
