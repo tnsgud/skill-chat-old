@@ -1,4 +1,6 @@
-import React, {FormEvent, useState} from "react";
+import React, {FormEvent, useState, MouseEvent} from "react";
+import {authService} from './firebase'
+import {GoogleAuthProvider, signInWithPopup} from "firebase/auth";
 
 function App() {
     const [userEmail, setUserEmail] = useState('')
@@ -6,7 +8,7 @@ function App() {
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log(userEmail + '/' + userPassword)
+
     };
 
     const onChange = (e: FormEvent<HTMLInputElement>) => {
@@ -19,6 +21,12 @@ function App() {
         }
     }
 
+    const onClick = async (e: MouseEvent<HTMLButtonElement>) => {
+        const provider = new GoogleAuthProvider()
+        const result = await signInWithPopup(authService, provider)
+        console.log(result)
+    }
+
     return (
         <>
             <form onSubmit={onSubmit}>
@@ -26,12 +34,8 @@ function App() {
                 비밀번호 <input name="password" type="password" placeholder="Password" onChange={onChange}/>
                 로그인 <input type="submit"/>
             </form>
-            <button>
+            <button onClick={onClick}>
                 Continue with Google
-            </button>
-
-            <button>
-                Continue with Github
             </button>
         </>
     );
